@@ -29,5 +29,11 @@ namespace Middleware_And_NLog.Controllers
             })
             .ToArray();
         }
+
+        [HttpPost]
+        public IActionResult Post() 
+        {
+            throw new NotImplementedException();
+        }
     }
 }

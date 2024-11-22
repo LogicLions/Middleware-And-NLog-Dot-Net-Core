@@ -1,4 +1,7 @@
 
+using Middleware_And_NLog.Middlewares;
+using NLog.Extensions.Logging;
+
 namespace Middleware_And_NLog
 {
     public class Program
@@ -8,7 +11,11 @@ namespace Middleware_And_NLog
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddLogging(options=>{
+                options.ClearProviders();
+                options.SetMinimumLevel(LogLevel.Error);
+            });
+            builder.Services.AddSingleton<ILoggerProvider, NLogLoggerProvider>();
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -27,6 +34,7 @@ namespace Middleware_And_NLog
 
             app.UseAuthorization();
 
+            app.UseExceptionMiddleware();
 
             app.MapControllers();
 
